@@ -27,9 +27,9 @@ while True:
    
 
     player_x+=x_spd
+    player_y+=y_spd
 
     window.fill((0,0,0))
-    player_x+=x_spd
     window.blit(player,(player_x,player_y))
     window.blit(falling_object,(falling_object_x,falling_object_y))
 
@@ -38,17 +38,17 @@ while True:
 
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            print(x_spd)
-            player_x+=9
-            if event.type == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT:
                 x_spd = -2
-                print(x_spd) # prints 0????
-                player_x+=x_spd
-            if event.type == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT:
                 x_spd = 2
-                player_x+=x_spd
+            if event.key == pygame.K_UP:
+                y_spd = -2
+            if event.key == pygame.K_DOWN:
+                y_spd = 2
         else: 
             x_spd = 0
+            y_spd = 0
 
         if event.type == pygame.QUIT:
             quit(0)
