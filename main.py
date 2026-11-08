@@ -1,4 +1,5 @@
 import pygame;
+import random;
 
 pygame.init()
 
@@ -9,12 +10,13 @@ pygame.display.set_caption("Cyborgnetical's Snake Game")
 
 # Global Variables
 gravity = 0.1
+size = 40
 
 # Player Code
 player = pygame.surface.Surface((100,100))
 player.fill((255,255,255))
-player = pygame.image.load("img/Guy_Umbrella.png").convert_alpha()
-player = pygame.transform.scale(player,(300,300))
+player = pygame.image.load("imgs/Guy_Umbrella.png").convert_alpha()
+player = pygame.transform.scale(player,(size,size))
 
 player_x = 0
 player_y = 0
@@ -22,12 +24,22 @@ x_spd = 0
 y_spd = 0
 
 
+raindrops  = []
 
-rainDrop_1 = pygame.surface.Surface((50,50))
-rainDrop_1.fill((255,255,255))
-rainDrop_1_x = 0
-rainDrop_1_y = 0
-rainDrop_1_y_spd = 0
+class RainDrop:
+    def __init__(self):
+        self.x = random.randint(0,800)
+        self.y = random.randint(0,100)
+        self.size = size
+        self.display = pygame.image.load("imgs/Raindrop.png").convert_alpha()
+        self.display = pygame.transform.scale(self.display,(self.size,self.size))
+
+    def update(self):
+        return f"{self.brand} {self.model} with {self.storage}GB"
+
+for i in range(30):
+    rainDrop = RainDrop()
+    raindrops.append(rainDrop)
 
 # game loopus thing, its never lupus - dr house
 while True: 
@@ -36,11 +48,15 @@ while True:
     player_x+=x_spd
     player_y+=y_spd+gravity
 
-    rainDrop_1_y -= -0.1
+    # NOTE: "i" in python is not a int, but the objetct???
+    for i in raindrops:
+        i.y+=gravity
 
     window.fill((0,0,0))
     window.blit(player,(player_x,player_y))
-    window.blit(rainDrop_1,(rainDrop_1_x,rainDrop_1_y))
+
+    for i in raindrops:
+        window.blit(i.display,(i.x,i.y))
 
 
     pygame.display.flip()
